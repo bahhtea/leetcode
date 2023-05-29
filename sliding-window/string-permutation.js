@@ -11,7 +11,7 @@ const doesContainPermutation = (str, pattern) => {
     substrChars.set(char, (substrChars.get(char) || 0) + 1);
   }
 
-  const hasPermutation = () => {
+  const areMapsEqual = () => {
     if (substrChars.size !== patternChars.size) return false;
 
     for (let [key, value] of substrChars) {
@@ -21,7 +21,7 @@ const doesContainPermutation = (str, pattern) => {
     return true;
   };
 
-  if (hasPermutation()) return true;
+  if (areMapsEqual()) return true;
 
   for (let i = pattern.length; i < str.length; i++) {
     const firstChar = str[i - pattern.length];
@@ -35,7 +35,7 @@ const doesContainPermutation = (str, pattern) => {
 
     substrChars.set(lastChar, (substrChars.get(lastChar) || 0) + 1);
 
-    if (hasPermutation()) return true;
+    if (areMapsEqual()) return true;
   }
 
   return false;
