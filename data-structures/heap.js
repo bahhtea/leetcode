@@ -1,5 +1,6 @@
 class BinaryHeap {
-  constructor() {
+  constructor(comparator) {
+    this.comparator = comparator;
     this.values = [];
   }
 
@@ -19,7 +20,7 @@ class BinaryHeap {
     const secondChild = this.values[secondChildIndex];
 
     if (secondChild === undefined) return firstChildIndex;
-    if (firstChild <= secondChild) return secondChildIndex;
+    if (!this.comparator(firstChild, secondChild)) return secondChildIndex;
     else return firstChildIndex;
   }
 
@@ -28,7 +29,7 @@ class BinaryHeap {
     let parentIndex = this.#getParentIndex(childIndex);
 
     while (parentIndex >= 0) {
-      if (this.values[childIndex] > this.values[parentIndex]) {
+      if (!this.comparator(this.values[parentIndex], this.values[childIndex])) {
         [this.values[childIndex], this.values[parentIndex]] = [
           this.values[parentIndex],
           this.values[childIndex],
@@ -49,7 +50,7 @@ class BinaryHeap {
       let parent = this.values[parentIndex];
       let child = this.values[childIndex];
 
-      if (child && parent < child) {
+      if (child && !this.comparator(parent, child)) {
         [this.values[parentIndex], this.values[childIndex]] = [
           this.values[childIndex],
           this.values[parentIndex],
@@ -77,7 +78,9 @@ class BinaryHeap {
   }
 }
 
-const heap = new BinaryHeap();
+const heap = new BinaryHeap((parent, child) => parent > child);
+heap.insert(5);
+heap.insert(5);
 heap.insert(5);
 heap.insert(2);
 heap.insert(7);
@@ -91,3 +94,9 @@ heap.remove();
 heap.remove();
 
 console.log(heap.values);
+
+const priorityQueue = new BinaryHeap(
+  (parent, child) => parent.priority > child.priority
+);
+
+/*  */
